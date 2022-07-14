@@ -4,74 +4,44 @@ import React from 'react';
 import { MonoText } from '../components/UI/StyledText';
 import { FontAwesome } from '@expo/vector-icons';
 import whitesquaredpaper from '../assets/images/white-squared-paper.webp';
+import MainButton from '../components/UI/MainButton';
+import MultiplicationTable from '../constants/MultiplicationTable';
 
 export default function ExercisesScreen({ navigation }: RootTabScreenProps<"Exercises">) {
 
   function startExercise(digit?: number) {
-    navigation.navigate("Info");
+    navigation.navigate('Exercise');
   }
 
   return (
-    <ImageBackground source={whitesquaredpaper} imageStyle={{opacity: 0.3}}>
+    <ImageBackground source={whitesquaredpaper} imageStyle={{ opacity: 0.3 }}>
       <ScrollView>
         <View style={styles.container}>
-          <Text style={styles.title}>Умножение на:</Text>
-          <View style={styles.evenItems}>
-            <TouchableOpacity activeOpacity={0.6} >
-              <View style={styles.button}>
+          <Text style={styles.title}>Умножение</Text>
+          <View style={styles.items}>
+            <View style={styles.alongItem}>
+              <MainButton onPress={() => startExercise()}>
                 <FontAwesome name="star" size={24} color="black" />
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.oddItems}>
-            <TouchableOpacity activeOpacity={0.6} >
-              <View style={styles.button}>
-                <MonoText style={styles.buttonText}>2</MonoText>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.6} >
-              <View style={styles.button}>
-                <MonoText style={styles.buttonText}>3</MonoText>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.evenItems}>
-            <TouchableOpacity activeOpacity={0.6} >
-              <View style={styles.button}>
-                <MonoText style={styles.buttonText}>4</MonoText>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.oddItems}>
-            <TouchableOpacity activeOpacity={0.6} >
-              <View style={styles.button}>
-                <MonoText style={styles.buttonText}>5</MonoText>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.6} >
-              <View style={styles.button}>
-                <MonoText style={styles.buttonText}>6</MonoText>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.evenItems}>
-            <TouchableOpacity activeOpacity={0.6} >
-              <View style={styles.button}>
-                <MonoText style={styles.buttonText}>7</MonoText>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.oddItems}>
-            <TouchableOpacity activeOpacity={0.6} >
-              <View style={styles.button}>
-                <MonoText style={styles.buttonText}>8</MonoText>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.6} >
-              <View style={styles.button}>
-                <MonoText style={styles.buttonText}>9</MonoText>
-              </View>
-            </TouchableOpacity>
+              </MainButton>
+            </View>
+            {MultiplicationTable.map((item, index) => {
+              if ((index + 1) % 3 === 0) {
+                return (
+                  <View key={item} style={styles.alongItem}>
+                    <MainButton onPress={() => startExercise(item)}>
+                      <MonoText style={styles.buttonText}>{item}</MonoText>
+                    </MainButton>
+                  </View>)
+              }
+              else {
+                return (
+                  <View key={item} style={styles.pairItem}>
+                    <MainButton onPress={() => startExercise(item)}>
+                      <MonoText style={styles.buttonText}>{item}</MonoText>
+                    </MainButton>
+                  </View>)
+              }
+            })}
           </View>
         </View>
       </ScrollView>
@@ -90,15 +60,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 30
   },
-  oddItems: {
-    width: '100%',
+  items: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  pairItem: {
+    width: '50%',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     marginBottom: 30,
   },
-  evenItems: {
-    flexDirection: 'row',
+  alongItem: {
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 30,
