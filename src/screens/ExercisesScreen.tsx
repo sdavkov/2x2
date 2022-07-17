@@ -1,9 +1,9 @@
 import { Button, StyleSheet, View, Text, ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
-import { RootTabScreenProps } from '../types';
+import { RootTabScreenProps } from '../../types';
 import React from 'react';
 import { MonoText } from '../components/UI/StyledText';
 import { FontAwesome } from '@expo/vector-icons';
-import whitesquaredpaper from '../assets/images/white-squared-paper.webp';
+import whitesquaredpaper from '../../assets/images/white-squared-paper.webp';
 import MainButton from '../components/UI/MainButton';
 import MultiplicationTable from '../constants/MultiplicationTable';
 
@@ -19,11 +19,6 @@ export default function ExercisesScreen({ navigation }: RootTabScreenProps<"Exer
         <View style={styles.container}>
           <Text style={styles.title}>Умножение</Text>
           <View style={styles.items}>
-            <View style={styles.alongItem}>
-              <MainButton onPress={() => startExercise()}>
-                <FontAwesome name="star" size={24} color="black" />
-              </MainButton>
-            </View>
             {MultiplicationTable.map((item, index) => {
               if ((index + 1) % 3 === 0) {
                 return (
@@ -42,6 +37,11 @@ export default function ExercisesScreen({ navigation }: RootTabScreenProps<"Exer
                   </View>)
               }
             })}
+            <View style={styles.alongItem}>
+              <MainButton onPress={() => startExercise()}>
+                <FontAwesome name="star" size={24} color="black" />
+              </MainButton>
+            </View>
           </View>
         </View>
       </ScrollView>

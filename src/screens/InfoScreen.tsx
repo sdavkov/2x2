@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet, Text, View, Image } from 'react-native';
-import im from '../assets/images/im.jpg';
+import im from '../../assets/images/im.jpg';
 
 export default function InfoScreen() {
   return (

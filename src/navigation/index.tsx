@@ -10,7 +10,7 @@ import useColorScheme from '../hooks/useColorScheme';
 import InfoScreen from '../screens/InfoScreen';
 import ExercisesScreen from '../screens/ExercisesScreen';
 import TableScreen from '../screens/MultiplicationTableScreen';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../../types';
 import ExerciseScreen from '../screens/ExerciseScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
