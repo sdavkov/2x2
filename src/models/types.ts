@@ -5,8 +5,7 @@ export type Task = {
 
 export type Expression = {
 	action: Action;
-	answer: number | null;
-	unknownSumbol: string;
+	answer: number;
 	variants: number[];
 }
 

@@ -37,6 +37,14 @@ class ExerciseStore {
 		this.tasks = this.exercise.generateTasks(digit);
 		this.netx();
 	}
+
+	check(answer: number): number {
+		if (this.currentTask) {
+			this.currentTask.userAnswer = answer;
+			return this.currentTask.expression.answer;
+		}
+		return 0;
+	}
 }
 
 export default new ExerciseStore();

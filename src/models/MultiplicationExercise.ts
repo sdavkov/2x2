@@ -58,7 +58,6 @@ export class MultiplicationExercise extends Exercise {
 								brackets: false
 							},
 							answer: operand1 * operand2,
-							unknownSumbol: '?',
 							variants: this.getVariants(operand1, operand2),
 						},
 						userAnswer: null

@@ -13,6 +13,11 @@ const ExerciseScreen = () => {
 		LessonStore.start();
 	}, [])
 
+	function checkAnswer(answer: number) {
+		LessonStore.check(answer);
+		LessonStore.netx();
+	}
+
 	return (
 		(LessonStore.tasks && LessonStore.currentTask) ? (
 			<ImageBackground
@@ -24,11 +29,11 @@ const ExerciseScreen = () => {
 				</View>
 				<View>
 					<MonoText style={styles.question}>
-						{`${LessonStore.currentTask.expression.action.operand1} ${LessonStore.currentTask.expression.action.operator} ${LessonStore.currentTask.expression.action.operand1} = ?`}
+						{`${LessonStore.currentTask.expression.action.operand1} ${LessonStore.currentTask.expression.action.operator} ${LessonStore.currentTask.expression.action.operand2} = ?`}
 					</MonoText>
 					<View style={styles.answers}>
 						{LessonStore.currentTask.expression.variants.map(answer => (
-							<MainButton key={answer} style={styles.button}>
+							<MainButton key={answer} style={styles.button} onPress={() => checkAnswer(answer)}>
 								<MonoText style={styles.buttonText}>{answer}</MonoText>
 							</MainButton>))}
 					</View>
