@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 
-import TableItem from '../components/TableItem';
+import MultiplicationTableItem from '../components/MultiplicationTableItem';
 import MultiplicationTable from '../constants/MultiplicationTable';
 
 export default function MultiplicationTableScreen() {
@@ -10,7 +10,7 @@ export default function MultiplicationTableScreen() {
       <View style={styles.items}>
         {MultiplicationTable.map(item => (
           <View style={styles.item} key={item}>
-            <TableItem digit={item} />
+            <MultiplicationTableItem digit={item} />
           </View>
         ))}
       </View>

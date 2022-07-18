@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native';
 import { MonoText } from './UI/StyledText';
 
-const TableItem = ({ digit }: { digit: number }) => {
+const MultiplicationTableItem = ({ digit }: { digit: number }) => {
 
 	function getItems() {
 		const items = [];
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default TableItem
+export default MultiplicationTableItem
