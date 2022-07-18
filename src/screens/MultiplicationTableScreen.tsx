@@ -6,22 +6,21 @@ import MultiplicationTable from '../constants/MultiplicationTable';
 export default function MultiplicationTableScreen() {
 
   return (
-    <View>
-      <ScrollView style={styles.container}>
-        <View style={styles.items}>
-          {MultiplicationTable.map(item => (
-            <View style={styles.item} key={item}>
-              <TableItem digit={item} />
-            </View>
-          ))}
-        </View>
-      </ScrollView>
-    </View>
+    <ScrollView style={styles.container}>
+      <View style={styles.items}>
+        {MultiplicationTable.map(item => (
+          <View style={styles.item} key={item}>
+            <TableItem digit={item} />
+          </View>
+        ))}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: '#66cdaa',
     padding: 10
   },

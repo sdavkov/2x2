@@ -21,6 +21,27 @@ class ExerciseStore {
 		}
 	}
 
+	get totalResult() {
+		let result: { right: number, wrong: number, wrongTasks: Task[] } = {
+			right: 0,
+			wrong: 0,
+			wrongTasks: []
+		};
+
+		if (this.tasks) {
+			result = this.tasks.reduce((prev, task) => {
+				if (task.userAnswer === task.expression.answer) {
+					prev.right++;
+				} else {
+					prev.wrong++;
+					prev.wrongTasks.push(task);
+				}
+				return prev;
+			}, result);
+		}
+		return result;
+	}
+
 	netx(): void {
 		if (!this.tasks || this.tasks.length === 0 || this.currentTaskIndex + 1 >= this.tasks.length) {
 			this.currentTask = null;
