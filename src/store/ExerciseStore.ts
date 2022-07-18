@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 import { Exercise } from "../models/Exercise";
 import { MultiplicationExercise } from "../models/MultiplicationExercise";
 import { Operator, Task } from "../models/types";
+import { ExerciseResult } from "./types";
 
 class ExerciseStore {
 	exercise: Exercise | null = null;
@@ -22,7 +23,7 @@ class ExerciseStore {
 	}
 
 	get totalResult() {
-		let result: { right: number, wrong: number, wrongTasks: Task[] } = {
+		let result: ExerciseResult = {
 			right: 0,
 			wrong: 0,
 			wrongTasks: []

@@ -5,7 +5,7 @@ import { MonoText } from '../components/UI/StyledText';
 import { FontAwesome } from '@expo/vector-icons';
 import whitesquaredpaper from '../../assets/images/white-squared-paper.webp';
 import MainButton from '../components/UI/MainButton';
-import MultiplicationTable from '../constants/MultiplicationTable';
+import {MULTIPLICATION_TABLE} from '../constants/Exercises';
 import { Operator } from '../models/types';
 
 export default function ExercisesScreen({ navigation }: RootTabScreenProps<"Exercises">) {
@@ -20,7 +20,7 @@ export default function ExercisesScreen({ navigation }: RootTabScreenProps<"Exer
         <View style={styles.container}>
           <Text style={styles.title}>Умножение</Text>
           <View style={styles.items}>
-            {MultiplicationTable.map((item, index) => {
+            {MULTIPLICATION_TABLE.map((item, index) => {
               if ((index + 1) % 3 === 0) {
                 return (
                   <View key={item} style={styles.alongItem}>

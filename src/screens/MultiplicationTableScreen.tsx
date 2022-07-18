@@ -1,14 +1,14 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import MultiplicationTableItem from '../components/MultiplicationTableItem';
-import MultiplicationTable from '../constants/MultiplicationTable';
+import {MULTIPLICATION_TABLE} from '../constants/Exercises';
 
 export default function MultiplicationTableScreen() {
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.items}>
-        {MultiplicationTable.map(item => (
+        {MULTIPLICATION_TABLE.map(item => (
           <View style={styles.item} key={item}>
             <MultiplicationTableItem digit={item} />
           </View>

@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
-import { ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { ImageBackground, StyleSheet, View } from 'react-native';
 import * as Progress from 'react-native-progress';
 import whitesquaredpaper from '../../assets/images/white-squared-paper.webp';
-import { RootStackScreenProps, RootTabParamList } from '../../types';
-import MainButton from '../components/UI/MainButton';
-import { MonoText } from '../components/UI/StyledText';
+import { RootStackScreenProps } from '../../types';
+import ExerciseTask from '../components/exercise/ExerciseTask';
+import ExerciseTotal from '../components/exercise/ExerciseTotal';
 import ExerciseStore from '../store/ExerciseStore';
 
 type TaskAnswer = {
@@ -15,26 +15,26 @@ type TaskAnswer = {
 
 const ExerciseScreen = ({ navigation, route }: RootStackScreenProps<'Exercise'>) => {
 
-	const [answer, setAnswer] = useState<TaskAnswer | null>(null);
-
 	useEffect(() => {
-		setAnswer(null);
 		ExerciseStore.start(route.params.operator, route.params.digit);
 	}, [route])
 
 	function checkAnswer(userAnswer: number) {
-		if (!answer) {
-			const rightAnswer = ExerciseStore.check(userAnswer);
-			setAnswer({
-				userAnswer,
-				rightAnswer
-			});
+		if (ExerciseStore.currentTask && !ExerciseStore.currentTask.userAnswer) {
+			ExerciseStore.check(userAnswer);
 		}
 	}
 
 	function next() {
 		ExerciseStore.netx();
-		setAnswer(null);
+	}
+
+	function repeat() {
+		ExerciseStore.start(route.params.operator, route.params.digit);
+	}
+
+	function exit() {
+		navigation.popToTop();
 	}
 
 	return (
@@ -46,69 +46,10 @@ const ExerciseScreen = ({ navigation, route }: RootStackScreenProps<'Exercise'>)
 				<View style={styles.progressBar}>
 					<Progress.Bar progress={(ExerciseStore.currentTaskIndex) * (1 / ExerciseStore.tasks.length)} width={200} />
 				</View>
-				<View style={styles.task}>
-					<View style={styles.expression}>
-						<View style={{ width: 50, height: 50 }}>
-							{answer && answer.userAnswer !== answer.rightAnswer &&
-								<MonoText style={styles.rightAnswer}>{answer.rightAnswer}</MonoText>
-							}
-						</View>
-						<View style={styles.actionContainer}>
-							<MonoText style={styles.action}>
-								{`${ExerciseStore.currentTask.expression.action.operand1} ${ExerciseStore.currentTask.expression.action.operator} ${ExerciseStore.currentTask.expression.action.operand2} = `}
-							</MonoText>
-							<View style={{ width: 50 }}>
-								{answer ? answer.userAnswer === answer.rightAnswer ? (
-									<MonoText style={styles.rightAnswer}>{answer.userAnswer}</MonoText>
-								) : (<MonoText style={styles.falseAnswer}>{answer.userAnswer}</MonoText>) : (
-									<MonoText style={styles.action}>?</MonoText>
-								)}
-							</View>
-						</View>
-					</View>
-					<View style={styles.variants}>
-						{ExerciseStore.currentTask.expression.variants.map(answer => (
-							<MainButton key={answer} style={styles.button} onPress={() => checkAnswer(answer)}>
-								<MonoText style={styles.buttonText}>{answer}</MonoText>
-							</MainButton>))}
-					</View>
-				</View>
-				<View style={styles.answer}>
-					{answer && (
-						<MainButton onPress={() => next()} style={styles.nextButton}>
-							<Text style={styles.buttonText}>Далее</Text>
-						</MainButton>
-					)}
-				</View>
+				<ExerciseTask task={ExerciseStore.currentTask} checkAnswer={checkAnswer} next={next} />
 			</ImageBackground >
 		) : (
-			<View style={styles.total}>
-				<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-					<Text style={styles.rightAnswer}>{ExerciseStore.totalResult.right}</Text>
-					<Text style={styles.action}> / </Text>
-					<Text style={styles.falseAnswer}>{ExerciseStore.totalResult.wrong}</Text>
-				</View>
-				{ExerciseStore.totalResult.wrong > 0 && (
-					<View>
-						<Text style={styles.action}>Запомни</Text>
-						<ScrollView>
-							{ExerciseStore.totalResult.wrongTasks.map((task, index) => (
-								<MonoText key={index} style={styles.action}>
-									{`${task.expression.action.operand1} ${task.expression.action.operator} ${task.expression.action.operand2} = ${task.expression.answer}`}
-								</MonoText>
-							))}
-						</ScrollView>
-					</View>
-				)}
-				<View>
-					<MainButton onPress={() => next()} style={styles.nextButton}>
-						<Text style={styles.buttonText}>Повторить</Text>
-					</MainButton>
-					<MainButton onPress={() => next()} style={styles.nextButton}>
-						<Text style={styles.buttonText}>Завершить</Text>
-					</MainButton>
-				</View>
-			</View>
+			<ExerciseTotal result={ExerciseStore.totalResult} repeat={repeat} exit={exit} />
 		)
 	)
 }
@@ -121,41 +62,6 @@ const styles = StyleSheet.create({
 	},
 	progressBar: {
 		marginVertical: 20
-	},
-	task: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	expression: {
-		flexDirection: 'column',
-		justifyContent: 'flex-end',
-		alignItems: 'flex-end',
-	},
-	actionContainer: {
-		flexDirection: 'row'
-	},
-	action: {
-		fontSize: 40,
-		fontWeight: '500',
-		textAlign: 'center',
-	},
-	rightAnswer: {
-		color: 'green',
-		fontSize: 40,
-		textAlign: 'center',
-	},
-	falseAnswer: {
-		color: 'red',
-		fontSize: 40,
-		textAlign: 'center',
-		textDecorationLine: 'line-through'
-	},
-	variants: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		flexWrap: 'wrap',
-		marginVertical: 30
 	},
 	button: {
 		marginHorizontal: 10,
@@ -173,11 +79,6 @@ const styles = StyleSheet.create({
 	nextButton: {
 		marginVertical: 20
 	},
-	total: {
-		flex: 1,
-		justifyContent: 'flex-start',
-		alignItems: 'center'
-	}
 })
 
 export default observer(ExerciseScreen)
