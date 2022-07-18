@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { Exercise } from "../models/Exercise";
 import { MultiplicationExercise } from "../models/MultiplicationExercise";
-import { Task } from "../models/types";
+import { Operator, Task } from "../models/types";
 
 class ExerciseStore {
 	exercise: Exercise | null = null;
@@ -32,7 +32,7 @@ class ExerciseStore {
 		}
 	}
 
-	start(digit?: number) {
+	start(operator: Operator, digit?: number) {
 		this.exercise = new MultiplicationExercise();
 		this.tasks = this.exercise.generateTasks(digit);
 		this.netx();

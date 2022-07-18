@@ -6,11 +6,12 @@ import { FontAwesome } from '@expo/vector-icons';
 import whitesquaredpaper from '../../assets/images/white-squared-paper.webp';
 import MainButton from '../components/UI/MainButton';
 import MultiplicationTable from '../constants/MultiplicationTable';
+import { Operator } from '../models/types';
 
 export default function ExercisesScreen({ navigation }: RootTabScreenProps<"Exercises">) {
 
-  function startExercise(digit?: number) {
-    navigation.navigate('Exercise');
+  function startExercise(operator: Operator, digit?: number) {
+    navigation.navigate('Exercise', {operator, digit});
   }
 
   return (
@@ -23,7 +24,7 @@ export default function ExercisesScreen({ navigation }: RootTabScreenProps<"Exer
               if ((index + 1) % 3 === 0) {
                 return (
                   <View key={item} style={styles.alongItem}>
-                    <MainButton onPress={() => startExercise(item)}>
+                    <MainButton onPress={() => startExercise(Operator.multiplication, item)}>
                       <MonoText style={styles.buttonText}>{item}</MonoText>
                     </MainButton>
                   </View>)
@@ -31,14 +32,14 @@ export default function ExercisesScreen({ navigation }: RootTabScreenProps<"Exer
               else {
                 return (
                   <View key={item} style={styles.pairItem}>
-                    <MainButton onPress={() => startExercise(item)}>
+                    <MainButton onPress={() => startExercise(Operator.multiplication, item)}>
                       <MonoText style={styles.buttonText}>{item}</MonoText>
                     </MainButton>
                   </View>)
               }
             })}
             <View style={styles.alongItem}>
-              <MainButton onPress={() => startExercise()}>
+              <MainButton onPress={() => startExercise(Operator.multiplication)}>
                 <FontAwesome name="star" size={24} color="black" />
               </MainButton>
             </View>

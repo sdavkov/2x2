@@ -3,15 +3,16 @@ import React, { useEffect } from 'react';
 import { ImageBackground, StyleSheet, Text, View } from 'react-native';
 import * as Progress from 'react-native-progress';
 import whitesquaredpaper from '../../assets/images/white-squared-paper.webp';
+import { RootStackScreenProps, RootTabParamList } from '../../types';
 import MainButton from '../components/UI/MainButton';
 import { MonoText } from '../components/UI/StyledText';
 import LessonStore from '../store/LessonStore';
 
-const ExerciseScreen = () => {
+const ExerciseScreen = ({navigation, route}: RootStackScreenProps<'Exercise'>) => {
 
 	useEffect(() => {
-		LessonStore.start();
-	}, [])
+		LessonStore.start(route.params.operator, route.params.digit);
+	}, [route])
 
 	function checkAnswer(answer: number) {
 		LessonStore.check(answer);
