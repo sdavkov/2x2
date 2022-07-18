@@ -6,7 +6,7 @@ import whitesquaredpaper from '../../assets/images/white-squared-paper.webp';
 import { RootStackScreenProps, RootTabParamList } from '../../types';
 import MainButton from '../components/UI/MainButton';
 import { MonoText } from '../components/UI/StyledText';
-import LessonStore from '../store/LessonStore';
+import ExerciseStore from '../store/ExerciseStore';
 
 type TaskAnswer = {
 	userAnswer: number;
@@ -19,12 +19,12 @@ const ExerciseScreen = ({ navigation, route }: RootStackScreenProps<'Exercise'>)
 
 	useEffect(() => {
 		setAnswer(null);
-		LessonStore.start(route.params.operator, route.params.digit);
+		ExerciseStore.start(route.params.operator, route.params.digit);
 	}, [route])
 
 	function checkAnswer(userAnswer: number) {
 		if (!answer) {
-			const rightAnswer = LessonStore.check(userAnswer);
+			const rightAnswer = ExerciseStore.check(userAnswer);
 			setAnswer({
 				userAnswer,
 				rightAnswer
@@ -33,18 +33,18 @@ const ExerciseScreen = ({ navigation, route }: RootStackScreenProps<'Exercise'>)
 	}
 
 	function next() {
-		LessonStore.netx();
+		ExerciseStore.netx();
 		setAnswer(null);
 	}
 
 	return (
-		(LessonStore.tasks && LessonStore.currentTask) ? (
+		(ExerciseStore.tasks && ExerciseStore.currentTask) ? (
 			<ImageBackground
 				source={whitesquaredpaper}
 				imageStyle={{ opacity: 0.3 }}
 				style={styles.container}>
 				<View style={styles.progressBar}>
-					<Progress.Bar progress={(LessonStore.currentTaskIndex) * (1 / LessonStore.tasks.length)} width={200} />
+					<Progress.Bar progress={(ExerciseStore.currentTaskIndex) * (1 / ExerciseStore.tasks.length)} width={200} />
 				</View>
 				<View style={styles.task}>
 					<View style={styles.expression}>
@@ -55,7 +55,7 @@ const ExerciseScreen = ({ navigation, route }: RootStackScreenProps<'Exercise'>)
 						</View>
 						<View style={styles.actionContainer}>
 							<MonoText style={styles.action}>
-								{`${LessonStore.currentTask.expression.action.operand1} ${LessonStore.currentTask.expression.action.operator} ${LessonStore.currentTask.expression.action.operand2} = `}
+								{`${ExerciseStore.currentTask.expression.action.operand1} ${ExerciseStore.currentTask.expression.action.operator} ${ExerciseStore.currentTask.expression.action.operand2} = `}
 							</MonoText>
 							<View style={{ width: 50 }}>
 								{answer ? answer.userAnswer === answer.rightAnswer ? (
@@ -67,7 +67,7 @@ const ExerciseScreen = ({ navigation, route }: RootStackScreenProps<'Exercise'>)
 						</View>
 					</View>
 					<View style={styles.variants}>
-						{LessonStore.currentTask.expression.variants.map(answer => (
+						{ExerciseStore.currentTask.expression.variants.map(answer => (
 							<MainButton key={answer} style={styles.button} onPress={() => checkAnswer(answer)}>
 								<MonoText style={styles.buttonText}>{answer}</MonoText>
 							</MainButton>))}
@@ -84,15 +84,15 @@ const ExerciseScreen = ({ navigation, route }: RootStackScreenProps<'Exercise'>)
 		) : (
 			<View style={styles.total}>
 				<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-					<Text style={styles.rightAnswer}>{LessonStore.totalResult.right}</Text>
+					<Text style={styles.rightAnswer}>{ExerciseStore.totalResult.right}</Text>
 					<Text style={styles.action}> / </Text>
-					<Text style={styles.falseAnswer}>{LessonStore.totalResult.wrong}</Text>
+					<Text style={styles.falseAnswer}>{ExerciseStore.totalResult.wrong}</Text>
 				</View>
-				{LessonStore.totalResult.wrong > 0 && (
+				{ExerciseStore.totalResult.wrong > 0 && (
 					<View>
 						<Text style={styles.action}>Запомни</Text>
 						<ScrollView>
-							{LessonStore.totalResult.wrongTasks.map((task, index) => (
+							{ExerciseStore.totalResult.wrongTasks.map((task, index) => (
 								<MonoText key={index} style={styles.action}>
 									{`${task.expression.action.operand1} ${task.expression.action.operator} ${task.expression.action.operand2} = ${task.expression.answer}`}
 								</MonoText>

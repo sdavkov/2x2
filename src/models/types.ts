@@ -19,6 +19,4 @@ export type Action = {
 export enum Operator {
 	multiplication = 'x',
 	dividion = ':',
-	subtraction = '-',
-	addition = '+'
 }
