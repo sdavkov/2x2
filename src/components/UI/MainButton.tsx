@@ -9,12 +9,12 @@ const MainButton = (props: TouchableOpacity['props']) => {
 
 const styles = StyleSheet.create({
 	button: {
+		justifyContent: 'center',
+		alignItems: 'center',
 		backgroundColor: '#66cdaa',
 		borderRadius: 30,
 		minWidth: 60,
 		height: 60,
-		alignItems: 'center',
-		justifyContent: 'center',
 		paddingHorizontal: 20
 	},
 })

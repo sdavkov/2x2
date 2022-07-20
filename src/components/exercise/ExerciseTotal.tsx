@@ -5,6 +5,8 @@ import { ALLOWED_ERRORS } from "../../constants/Exercises"
 import { ExerciseResult } from "../../store/types"
 import MainButton from "../UI/MainButton"
 import { MonoText } from "../UI/StyledText"
+import { FontAwesome } from '@expo/vector-icons';
+import IconButton from "../UI/IconButton"
 
 type ExerciseTotalProps = {
 	result: ExerciseResult
@@ -36,12 +38,16 @@ const ExerciseTotal = ({ result, repeat, exit }: ExerciseTotalProps) => {
 					</View>
 				)}
 				<View style={styles.buttons}>
-					<MainButton onPress={repeat} style={styles.button}>
-						<Text style={styles.buttonText}>Повторить</Text>
-					</MainButton>
-					<MainButton onPress={exit} style={styles.button}>
-						<Text style={styles.buttonText}>Завершить</Text>
-					</MainButton>
+					<IconButton
+						onPress={repeat}
+						text="Повторить"
+						icon={(<FontAwesome style={styles.buttonIcon} name="repeat" size={24} color="black" />)}
+					/>
+					<IconButton
+						onPress={exit}
+						text="Завершить"
+						icon={(<FontAwesome style={styles.buttonIcon} name="power-off" size={24} color="black" />)}
+					/>
 				</View>
 			</View>
 		</ScrollView>
@@ -75,14 +81,19 @@ const styles = StyleSheet.create({
 	},
 	buttons: {
 		flexDirection: 'row',
-		justifyContent: 'center',
+		justifyContent: 'space-around',
 		marginVertical: 20,
+		width: '100%'
 	},
-	button: {
-		marginHorizontal: 10
+	buttonContentWrap: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	buttonIcon: {
+		marginRight: 10
 	},
 	buttonText: {
-		fontSize: 25
+		fontSize: 20,
 	},
 })
 

@@ -1,7 +1,9 @@
+import { FontAwesome } from '@expo/vector-icons';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Task } from '../../models/types';
+import IconButton from '../UI/IconButton';
 import MainButton from '../UI/MainButton';
 import { MonoText } from '../UI/StyledText';
 
@@ -41,9 +43,10 @@ const ExerciseTask = ({ task, checkAnswer, next }: ExerciseTaskProps) => {
 			</View>
 			<View style={styles.next}>
 				{task.userAnswer && (
-					<MainButton onPress={() => next()}>
-						<Text style={styles.buttonText}>Далее</Text>
-					</MainButton>
+					<IconButton
+						onPress={next}
+						icon={(<FontAwesome name="forward" size={24} color="black" />)}
+						text="Далее" />
 				)}
 			</View>
 		</View>
