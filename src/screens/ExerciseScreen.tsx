@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import * as Progress from 'react-native-progress';
 import whitesquaredpaper from '../../assets/images/white-squared-paper.webp';
@@ -7,11 +7,6 @@ import { RootStackScreenProps } from '../../types';
 import ExerciseTask from '../components/exercise/ExerciseTask';
 import ExerciseTotal from '../components/exercise/ExerciseTotal';
 import ExerciseStore from '../store/ExerciseStore';
-
-type TaskAnswer = {
-	userAnswer: number;
-	rightAnswer: number;
-}
 
 const ExerciseScreen = ({ navigation, route }: RootStackScreenProps<'Exercise'>) => {
 
@@ -37,6 +32,12 @@ const ExerciseScreen = ({ navigation, route }: RootStackScreenProps<'Exercise'>)
 		navigation.popToTop();
 	}
 
+	const barProgress = useCallback(() => {
+		return ExerciseStore.tasks && ExerciseStore.currentTask
+			? (ExerciseStore.currentTaskIndex * (1 / ExerciseStore.tasks.length))
+			: 0;
+	}, [ExerciseStore.tasks, ExerciseStore.currentTask])
+
 	return (
 		(ExerciseStore.tasks && ExerciseStore.currentTask) ? (
 			<ImageBackground
@@ -44,7 +45,7 @@ const ExerciseScreen = ({ navigation, route }: RootStackScreenProps<'Exercise'>)
 				imageStyle={{ opacity: 0.3 }}
 				style={styles.container}>
 				<View style={styles.progressBar}>
-					<Progress.Bar progress={(ExerciseStore.currentTaskIndex) * (1 / ExerciseStore.tasks.length)} width={200} />
+					<Progress.Bar progress={barProgress()} width={200} />
 				</View>
 				<ExerciseTask task={ExerciseStore.currentTask} checkAnswer={checkAnswer} next={next} />
 			</ImageBackground >
